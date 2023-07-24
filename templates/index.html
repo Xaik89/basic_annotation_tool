@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+        <div class="content">
+        <div class="image-content">
+            <h1>Edgify</h1>
+            <p>Current label: {{ data.label }}</p>
+            <p>Predicted label: {{ data.predicted_label }}</p>
+            <p>Image path: {{ data.image_path }}</p>
+            <img src="{{ data.image_path }}" width="640" height="480">
+            <div class="progress-bar" style="width:{{ progress.current / progress.total * 100 }}%"></div>
+            <p>{{ progress.current }}/{{ progress.total }}</p>
+        </div>
+        <div class="side-bar">
+            <select name="label" form="changeLabelForm">
+                {% for label in labels %}
+                <option value="{{ label }}" {% if label == data.label %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <form id="changeLabelForm" action="/" method="post">
+                <input type="hidden" name="action" value="change_label">
+                <input type="hidden" name="new_label">
+                <button id="changeLabelButton" type="submit">Change Label</button>
+            </form>
+            <form action="/" method="post">
+                <input type="hidden" name="action" value="use_predicted">
+                <button id="usePredictedButton" type="submit">Use predicted label</button>
+            </form>
+            <form action="/" method="post">
+                <input type="hidden" name="action" value="next">
+                <button id="nextButton" type="submit">Next</button>
+            </form>
+            <form action="/" method="post">
+                <input type="hidden" name="action" value="previous">
+                <button id="previousButton" type="submit">Back</button>
+            </form>
+            <form action="/" method="post">
+                <input type="hidden" name="action" value="delete">
+                <button id="deleteButton" type="submit">Delete</button>
+            </form>
+            <form action="/" method="post">
+                <input type="hidden" name="action" value="done">
+                <button id="doneButton" type="submit">Done</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
